@@ -1,6 +1,5 @@
 package adtechs.jordiie.sleepingteachingassistant;
 
-import android.nfc.Tag;
 import android.util.Log;
 
 import java.util.concurrent.Semaphore;
