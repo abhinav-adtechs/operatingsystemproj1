@@ -1,16 +1,20 @@
-package adtechs.jordiie.sleepingteachingassistant;
+package co.hackdevmentalists.abhinav.testapp;
 
 import android.util.Log;
 
+import java.util.Scanner;
 import java.util.concurrent.Semaphore;
 import java.util.Random;
 
-public class SleepingTeachingAssistant {
+public class TeachingAssistant {
 
     public static String TAG = "Teaching assistant Logger" ;
 
     public static void main(String[] args) {
-        int numStudents = 5;
+
+        Scanner reader = new Scanner(System.in);  // Reading from System.in
+        System.out.println("Enter number of students to process: ");
+        int numStudents = reader.nextInt();
 
         SignalSemaphore wakeup = new SignalSemaphore();
         Semaphore chairs = new Semaphore(3);
@@ -25,7 +29,7 @@ public class SleepingTeachingAssistant {
             student.start();
         }
 
-        Thread ta = new Thread(new TeachingAssistant(wakeup, chairs, available));
+        Thread ta = new Thread(new AssistantTeaching(wakeup, chairs, available));
         ta.start();
     }
 }
@@ -55,13 +59,10 @@ class SignalSemaphore {
 class Student implements Runnable
 {
     private int programTime;
-
     private int studentNum;
 
     private SignalSemaphore wakeup;
-
     private Semaphore chairs;
-
     private Semaphore available;
 
     private Thread t;
@@ -103,7 +104,7 @@ class Student implements Runnable
                     }
                     catch (InterruptedException e)
                     {
-                        Log.e(SleepingTeachingAssistant.TAG, "Inside run func") ;
+                        Log.e(TeachingAssistant.TAG, "Inside run func") ;
                     }
                     finally
                     {
@@ -127,7 +128,7 @@ class Student implements Runnable
                         }
                         catch (InterruptedException e)
                         {
-                            Log.e(SleepingTeachingAssistant.TAG, " Inside run func of Student" ) ;
+                            Log.e(TeachingAssistant.TAG, " Inside run func of Student" ) ;
                         }
                     }
                     else
@@ -148,14 +149,13 @@ class Student implements Runnable
  * Teaching Assistant Thread
  */
 
-class TeachingAssistant implements Runnable
-{
+class AssistantTeaching implements Runnable {
     private SignalSemaphore wakeup;
     private Semaphore chairs;
     private Semaphore available;
     private Thread t;
 
-    public TeachingAssistant(SignalSemaphore w, Semaphore c, Semaphore a)
+    public AssistantTeaching(SignalSemaphore w, Semaphore c, Semaphore a)
     {
         t = Thread.currentThread();
         wakeup = w;
@@ -191,10 +191,9 @@ class TeachingAssistant implements Runnable
             }
             catch (InterruptedException e)
             {
-             Log.e(SleepingTeachingAssistant.TAG, "Inside run() of Teaching assistant") ;
+                Log.e(TeachingAssistant.TAG, "Inside run() of Teaching assistant") ;
             }
         }
     }
 }
-
 
